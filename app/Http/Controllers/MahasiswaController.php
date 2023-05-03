@@ -3,7 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mahasiswa;
+use App\Models\Mahasiswa_MataKuliah;
+use App\Models\Matakuliah;
+use App\Models\Kelas;
+
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\DB;
 
 class MahasiswaController extends Controller
 {
@@ -127,5 +133,27 @@ class MahasiswaController extends Controller
         $keyword = $request->search;
         $mahasiswas = Mahasiswa::where('Nama', 'like', "%" . $keyword . "%")->paginate(1);
         return view('mahasiswas.index', compact('mahasiswas'))->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    // public function detailnilai($Nim)
+    // {
+    //     // menampilkan detail data dengan menemukan/berdasarkan Nim Mahasiswa
+    //     $Mahasiswa = Mahasiswa::with('matakulias')->where('Nim', $Nim)->first();
+    //     $nilai = DB::table('mahasiswa_matakuliah')
+    //         ->join('matakuliah', 'matakuliah.id', '=', 'mahasiswa_matakuliah.matakuliah_id')
+    //         ->where('mahasiswa_matakuliah.mahasiswa_id')
+    //         ->select('nilai')
+    //         ->get();
+    //     return view('mahasiswas.detailnilai', ['Mahasiswa' => $Mahasiswa,'nilai' => $nilai]);
+    // }
+
+    public function nilai($Nim)
+    {
+        //$Mahasiswa = Mahasiswa::find($nim);
+        $Mahasiswa = Mahasiswa::find($Nim);
+        $Matakuliah = Matakuliah::all();
+        //$MataKuliah = $Mahasiswa->MataKuliah()->get();
+        $Mahasiswa_MataKuliah = Mahasiswa_MataKuliah::where('mahasiswa_id','=',$Nim)->get();
+        return view('mahasiswas.detailnilai',['Mahasiswa' => $Mahasiswa],['Mahasiswa_MataKuliah' => $Mahasiswa_MataKuliah],['Matakuliah' => $Matakuliah], compact('Mahasiswa_MataKuliah'));
     }
 };

@@ -40,7 +40,7 @@
         <tr>
             <td>{{ $Mahasiswa->Nim }}</td>
             <td>{{ $Mahasiswa->Nama }}</td>
-            <td>{{ $Mahasiswa->Kelas }}</td>
+            <td>{{ $Mahasiswa->Kelas->nama_kelas }}</td>
             <td>{{ $Mahasiswa->Jurusan }}</td>
             <td>{{ $Mahasiswa->No_Handphone }}</td>
             <td>{{ $Mahasiswa->Email }}</td>
@@ -51,6 +51,8 @@
         <a class="btn btn-info" href="{{ route('mahasiswa.show',$Mahasiswa->Nim) }}">Show</a>
 
         <a class="btn btn-primary" href="{{ route('mahasiswa.edit',$Mahasiswa->Nim) }}">Edit</a>
+
+        <a class="btn btn-warning" href="{{ route('nilai',$Mahasiswa->Nim) }}">Nilai</a>
         @csrf
 
         @method('DELETE')

@@ -27,4 +27,14 @@ class Mahasiswa extends Model //Definisi Model
     'Email',
     'Tanggal_Lahir',
     ];
+
+    public function kelas()
+    {
+        return $this->belongsTo(kelas::class);
+    }
+
+    public function matakulias()
+    {
+        return $this->belongsToMany(Matakuliah::class,'mahasiswa_matakuliah','mahasiswa_id','matakuliah_id');
+    }
 }
